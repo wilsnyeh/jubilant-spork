@@ -1,5 +1,5 @@
 import React from "react";
-
+// 
 const FetchDogs = ({imageUrl}) => {
     const standard = {
         maxWidth: '500px',
