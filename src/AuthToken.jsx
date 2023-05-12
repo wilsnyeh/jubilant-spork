@@ -1,21 +1,27 @@
+require('dotenv').config();
+const fetch = require('node-fetch');
 
-function AuthToken(){
-        const fetch = require('node-fetch');
+async function AuthToken(){
 
     let url = 'https://api.petfinder.com/v2/oauth2/token';
     
     let options = {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
-      body: '{"grant_type":"client_credentials","client_id":process.env.CLIENT_ID,"client_secret":process.env.CLIENT_SECRET}'
+      body: JSON.stringify({
+        "grant_type": "client_credentials",
+        "client_id": process.env.CLIENT_ID,
+        "client_secret": process.env.CLIENT_SECRET
+      })
     };
-    console.log(body)
-    
-    fetch(url, options)
-      .then(res => res.json())
-      .then(json => console.log(json))
-      .catch(err => console.error('error:' + err));
-      
-    let token = res
+    try {
+      let res = await fetch(url, options)
+      let json = await res.json();
+      console.log(json)
+      let token = json.access_token
+      return token;
+    } catch (err) {
+      console.error('error:' + err);
+    }
 }
 export default AuthToken

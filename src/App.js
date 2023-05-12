@@ -1,10 +1,10 @@
-import logo from './logo.svg';
 import './App.css';
+import GetBreeds from './GetBreeds.jsx';
 
 function App() {
   return (
     <div className="App">
-     
+     <h1>hello</h1>
     </div>
   );
 }
