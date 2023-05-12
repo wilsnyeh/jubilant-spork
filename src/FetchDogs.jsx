@@ -1,6 +1,12 @@
 import React from "react";
 
 const FetchDogs = ({imageUrl}) => {
+    const standard = {
+        maxWidth: '500px',
+        maxHeight: '500px',
+        width:'auto',
+        height:'auto'
+    }
     // const [data, setData] = useState(null);
     
     // useEffect(() => {
@@ -23,7 +29,7 @@ const FetchDogs = ({imageUrl}) => {
     return (
         <div>
             <h1>Fetch!</h1>
-            <img src={imageUrl} alt='its dog' />
+            <img src={imageUrl} style={standard} alt='its dog' />
         </div>
     )
 }

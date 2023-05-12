@@ -16,11 +16,18 @@ function App() {
     getImage();
   }, []);
 
+  const buttonStyle = {
+    minHeight: '500px'
+  }
+
   return (
     <div className="App">
+      <div style={buttonStyle}>
      {doggo ? <FetchDogs imageUrl={doggo}/> : <p>loads</p>}
+     </div>
      <button onClick={getImage}>Throw the ball!</button>
     </div>
+
   );
 }
 
