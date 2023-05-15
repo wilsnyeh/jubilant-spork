@@ -49,10 +49,10 @@ function App() {
       <div style={buttonStyle}>
      {doggo ? <FetchDogs imageUrl={doggo}/> : <p>looking for treats</p>}
      </div>
+     <button onClick={getImage}>Throw the ball!</button>
      <div>
       {character ? <RickRolled character={character}/> : <p>burrrp</p>}
      </div>
-     <button onClick={getImage}>Throw the ball!</button>
      <button onClick={getRick}>burrrp!</button>
     </div>
 
