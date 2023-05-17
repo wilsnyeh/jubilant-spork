@@ -1,5 +1,5 @@
-require('dotenv').config();
-const fetch = require('node-fetch');
+// require('dotenv').config();
+// const fetch = require('node-fetch');
 
 async function AuthToken(){
 
@@ -19,7 +19,10 @@ async function AuthToken(){
       let json = await res.json();
       console.log(json)
       let token = json.access_token
-      return token;
+      //what is being returned?
+      return `Bearer ${token}`;
+      //or should it be
+      //"return token"
     } catch (err) {
       console.error('error:' + err);
     }
