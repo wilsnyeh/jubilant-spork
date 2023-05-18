@@ -4,12 +4,13 @@ import RickRolled from "./RickRolled.jsx";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
 import PetFinderLogin from "./PetFinderLogin.jsx";
-import GetAuthed from "./GetAuthed.js";
+import SearchBreeds from "./SearchBreeds.jsx";
+// import GetAuthed from "./GetAuthed.js";
 
 function App() {
   const [doggo, setDoggo] = useState(null);
   const [character, setCharacter] = useState(null);
-  const [token, setToken] = useState();
+  // const [token, setToken] = useState();
 
   useEffect(() => {
     getImage();
@@ -75,12 +76,13 @@ function App() {
       <button onClick={getRick}>burrrp!</button>
       <div>
         <PetFinderLogin />
+        {/* <SearchBreeds/> */}
       </div>
-      <BrowserRouter>
+      {/* <BrowserRouter>
         <Routes>
           <Route path="/" element={<GetAuthed />}/>
         </Routes>
-      </BrowserRouter>
+      </BrowserRouter> */}
     </div>
   );
 }
