@@ -44,6 +44,24 @@ const PetFinderLogin = () => {
       console.log('is this the token? line37', token)
   }
 
+  const SearchForDogs = () => {
+
+    let breedSearchUrl =`https://api.petfinder.com/v2/animals?type=dog&colors=black&coat=short`;
+    let breedSearchOptions = {     
+        method: 'GET',
+        headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+      }
+  
+    }
+    fetch(breedSearchUrl, breedSearchOptions)
+    .then(res => res.json())
+    .then(json => console.log(json))
+    .catch(err => console.error('error:' + err));
+    console.log('now what is token?: line 64', token)
+  }
+
   // let navigate = useNavigate();
   // const routeChange = () => {
   //     let path = `/signup/`
@@ -69,12 +87,13 @@ const PetFinderLogin = () => {
           type="submit"
           onClick={()=> {
             loginUser();
-            routeChange();
+            // routeChange();
           }}>
           gib token
         </button>
         <SearchBreeds token={token}/>
-        <SearchDogs token={token}/>
+        {/* <SearchDogs token={token}/> */}
+        <button onClick={SearchForDogs}>click this for other dogs</button>
       </div>
     </div>
   );

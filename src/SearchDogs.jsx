@@ -73,7 +73,7 @@ const SearchForDogs = () => {
       <div style={columns}>
         {params.coats.map((coat) => (
           <div>
-            <label for="coat">{coat}</label>
+            <label htmlFor="coat">{coat}</label>
             <input type="checkbox" id="coat"></input>
           </div>
         ))}
