@@ -2,18 +2,39 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import SearchBreeds from "./SearchBreeds";
 import SearchDogs from "./SearchDogs";
+// import Cookies from "js-cookie";
+import "./App.css"
 
 const PetFinderLogin = () => {
   const [token, setToken] = useState("");
   // const [colors, setColors] = useState("");
   // const [coats, setCoats] = useState("");
-  const [data, setaData] = useState([]);
+  const [data, setaData] = useState(null);
 
   let navigate = useNavigate();
   const routeChange = () => {
     let path = `/searchdogs/`;
     navigate(path);
   };
+
+  // const getSession = () => {
+  //   const authToken = Cookies.get("__session");
+  //   let session;
+  //   try {
+  //     if (authToken) {
+  //       const base64Url = authToken.split(".")[1];
+  //       const base64 = base64Url.replace("-", "+").replace("_", "/");
+  //       session = JSON.parse(window.atob(base64));
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  //   return session;
+  // };
+
+  // const logOut = () => {
+  //   Cookies.remove("__session");
+  // };
 
   async function loginUser() {
     let petFinderUrl = "https://api.petfinder.com/v2/oauth2/token";
@@ -51,13 +72,17 @@ const PetFinderLogin = () => {
     };
     fetch(breedSearchUrl, breedSearchOptions)
       .then((res) => res.json())
-      .then((json) =>
-        console.log("how do i capture this data?", json, JSON.stringify(json)))
-      // .then((data) => )
+      .then((json) => {
+        console.log("how do i capture this data?", json, JSON.stringify(json));
+        setaData(json);
+      })
       .catch((err) => console.error("error:" + err));
-
-    // let content =
+      console.log('this line is setdata', data)
   };
+  // useEffect(() => {
+    
+  // });
+
 
   // let navigate = useNavigate();
   // const routeChange = () => {
@@ -74,20 +99,20 @@ const PetFinderLogin = () => {
   //     setToken(token)
   // }
 
-  const searchInput = () => {
-    let breedSearchUrl = `https://api.petfinder.com/v2/animals?type=dog&location=california&breed=bulldog`;
-    let breedSearchOptions = {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    };
-    fetch(breedSearchUrl, breedSearchOptions)
-      .then((res) => res.json())
-      .then((json) => console.log("this is the json", json))
-      .catch((err) => console.error("error:" + err));
-  };
+  // const searchInput = () => {
+  //   let breedSearchUrl = `https://api.petfinder.com/v2/animals?type=dog&location=california&breed=bulldog`;
+  //   let breedSearchOptions = {
+  //     method: "GET",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //       Authorization: `Bearer ${token}`,
+  //     },
+  //   };
+  //   fetch(breedSearchUrl, breedSearchOptions)
+  //     .then((res) => res.json())
+  //     .then((json) => console.log("this is the json", json))
+  //     .catch((err) => console.error("error:" + err));
+  // };
 
   return (
     <div>
@@ -105,16 +130,35 @@ const PetFinderLogin = () => {
         <SearchBreeds token={token} />
         {/* <SearchDogs token={token}/> */}
 
-        <input type="search" placeholder="location" />
+        {/* <input type="search" placeholder="location" />
         <br></br>
         <input type="search" placeholder="dog breed" />
         <button type="submit" onClick={searchInput}>
           submit
-        </button>
+        </button> */}
         <br></br>
 
         <button onClick={SearchForDogs}>this is search for dogs</button>
         <div>
+          {/* <div className='dropdown-container'>
+            <div className='dropdown-input'>
+              <div className='dropdown-menu'>
+                {data.animals.map((animal) => (
+                  <div key={data.animals.id} className='dropdown-item'>
+                    {animal.name}
+                    </div>
+                ))}
+              </div>
+            </div>
+          </div> */}
+
+{data && data.animals && data.animals.map((animal, i) => (
+
+<p key={i}>breed: {data.animals[i].breeds.primary}</p>))}
+
+          {/* {data && data.animals && data.animals[0] && 
+            <p>breed: {data.animals[0].breeds.primary}</p>
+          } */}
           {/*
           we want to check for token here, if token is available, we can begin render data
           for user 
