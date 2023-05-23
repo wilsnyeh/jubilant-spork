@@ -6,6 +6,7 @@ import "./App.css";
 import PetFinderLogin from "./PetFinderLogin.jsx";
 // import SearchBreeds from "./SearchBreeds.jsx";
 import SearchDogs from "./SearchDogs.jsx";
+import Nav from "./nav.js";
 
 function App() {
   const [doggo, setDoggo] = useState(null);
@@ -15,11 +16,12 @@ function App() {
   return (
     <div className="App">
       <BrowserRouter>
+      <Nav/>
         <Routes>
           <Route path="/" element={<FetchDogs imageUrl={doggo} setDoggo={setDoggo}/>} />
           {/* <Route path="/morty" element={<RickRolled character={character} setCharacter={setCharacter}/>} /> */}
           <Route path="/login" element={<PetFinderLogin />} />
-          <Route  path="/searchdogs" element={<SearchDogs/>}/>
+          {/* <Route  path="/searchdogs" element={<SearchDogs/>}/> */}
         </Routes>
       </BrowserRouter>
     </div>

@@ -33,7 +33,6 @@ const FetchDogs = ({ imageUrl, doggo, setDoggo }) => {
 
       <div style={buttonStyle}>
         {/* {doggo ? <FetchDogs /> : <p>looking for treats</p>} */}
-        <p>what shows up here</p>
       </div>
       <button onClick={getImage}>Throw the ball!</button>
       

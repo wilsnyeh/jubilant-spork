@@ -1,18 +1,12 @@
 import React, { useState } from "react";
-import { Navigate, useNavigate} from 'react-router-dom'
+import { json, useNavigate } from 'react-router-dom'
 import SearchBreeds from "./SearchBreeds";
 import SearchDogs from "./SearchDogs";
 
 
 
 const PetFinderLogin = () => {
-  // some jsx here
-//   const [userName, setUserName] = useState("");
-//   const [password, setPassword] = useState("");
   const [token, setToken] = useState('');
-  // some state that manages token usage
-  // const [, login] = useToken();
-
 
 
   let navigate = useNavigate();
@@ -58,9 +52,14 @@ const PetFinderLogin = () => {
     fetch(breedSearchUrl, breedSearchOptions)
     .then(res => res.json())
     .then(json => console.log(json))
+    .then(res => console.log('this is line55', JSON.stringify(res)))
     .catch(err => console.error('error:' + err));
     console.log('now what is token?: line 64', token)
+    console.log('is this the list of search results?', )
+
+    // let content = res.json()
   }
+
 
   // let navigate = useNavigate();
   // const routeChange = () => {
