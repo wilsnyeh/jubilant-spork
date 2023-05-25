@@ -18,13 +18,25 @@ const PetFinderLogin = () => {
 
   const handleSearchChange = (e) => {
     setSearchDog(e.target.value);
-    setSearchLocation(e.target.value)
   };
+
+  const handleLocationChange = (e) => {
+    setSearchLocation(e.target.value)
+  }
 
   const handleSearchSubmit = async (e) => {
     e.preventDefault();
-    //need ternary for location
-    const petFinderSearchUrl = `https://api.petfinder.com/v2/animals?type=${searchDog}&location=${searchLocation}`;
+    //need ternary for location https://api.petfinder.com/v2/animals?type=${searchDog}&{${}}
+    let petFinderSearchUrl = `https://api.petfinder.com/v2/animals?type=${searchDog}`;
+    // is there a more eloquent way to write this?
+    if (searchLocation.length === 0) {
+      let petFinderSearchUrl;
+      console.log('what does the url look like here? line 35', petFinderSearchUrl)
+      // petFinderSearchUrl = `https://api.petfinder.com/v2/animals?type=${searchDog}`
+    } else {
+      petFinderSearchUrl +=`&location=${searchLocation}`
+      console.log('what does the url look like here? line 38', petFinderSearchUrl)
+    }
 
     const options = {
       method: "GET",
@@ -59,8 +71,28 @@ const PetFinderLogin = () => {
     console.log(animals)
     setSearchContent(animals);
   };
+const handleAnimalTypes = async (e) => {
+  e.preventDefault()
+  let animalTypesArr = []
+  let animalTypes1Url = `https://api.petfinder.com/v2/types`
 
-  const animalTypes = ["cat", "dog", "bird"];
+  const options = {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  const res = await fetch(animalTypes1Url, options);
+  const content = await res.json();
+  console.log('what does this look like?', content, handleAnimalTypes)
+}
+ 
+
+
+  const animalTypes = ["Cat", "Dog", "Bird", "Rabbit", "Horse", "scales-fins-other", "Barnyard"];
+
 
   async function loginUser() {
     let petFinderUrl = "https://api.petfinder.com/v2/oauth2/token";
@@ -156,8 +188,9 @@ const PetFinderLogin = () => {
           </select>
           <select
           value={searchLocation}
-          onChange={handleSearchChange}
+          onChange={handleLocationChange}
           >
+            <option></option>
             {statesAbbreviation.map((abb) => {
               return <option>{abb}</option>
             })}
