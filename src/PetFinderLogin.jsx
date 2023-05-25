@@ -29,12 +29,13 @@ const handleSearchSubmit = async (e) => {
   }
 
   const res = await fetch(petFinderSearchUrl, options);
-  const data = await res.json()
+  const content = await res.json()
 
-  console.log(data)
+  console.log(content)
 }
 
 
+const animalTypes = ['cat', 'dog', 'bird']
   // let navigate = useNavigate();
   // const routeChange = () => {
   //   let path = `/searchdogs/`;
@@ -154,12 +155,19 @@ const handleSearchSubmit = async (e) => {
         <SearchBreeds token={token} />
 
         <form onSubmit={handleSearchSubmit}>
-          <input 
+          {/* <input 
           type='text'
           placeholder='search pet type'
           value={searchDog}
           onChange={handleSearchChange}
-          />
+          /> */}
+          <label htmlFor='animaltypes'>choose animal type</label>
+          <select id='animaltypes' value={searchDog} onChange={handleSearchChange} name='animaltypes'>
+            {animalTypes.map((animal) => {
+              return (
+              <option>{animal}</option>
+            )})}
+          </select>
           <button type='submit'>find your pet type</button>
         </form>
         {/* <SearchDogs token={token}/> */}
