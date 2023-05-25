@@ -10,12 +10,36 @@ const PetFinderLogin = () => {
   // const [colors, setColors] = useState("");
   // const [coats, setCoats] = useState("");
   const [data, setaData] = useState(null);
+  const [searchDog, setSearchDog] = useState('');
 
-  let navigate = useNavigate();
-  const routeChange = () => {
-    let path = `/searchdogs/`;
-    navigate(path);
-  };
+const handleSearchChange = (e) => {
+  setSearchDog(e.target.value);
+}
+
+const handleSearchSubmit = async (e) => {
+  e.preventDefault();
+  const petFinderSearchUrl = `https://api.petfinder.com/v2/animals?type=${searchDog}`
+
+  const options = {
+    method: 'GET',
+    headers: {
+      "Content-Type": 'application/json',
+      "Authorization": `Bearer ${token}`
+    }
+  }
+
+  const res = await fetch(petFinderSearchUrl, options);
+  const data = await res.json()
+
+  console.log(data)
+}
+
+
+  // let navigate = useNavigate();
+  // const routeChange = () => {
+  //   let path = `/searchdogs/`;
+  //   navigate(path);
+  // };
 
   // const getSession = () => {
   //   const authToken = Cookies.get("__session");
@@ -128,6 +152,16 @@ const PetFinderLogin = () => {
           gib token
         </button>
         <SearchBreeds token={token} />
+
+        <form onSubmit={handleSearchSubmit}>
+          <input 
+          type='text'
+          placeholder='search pet type'
+          value={searchDog}
+          onChange={handleSearchChange}
+          />
+          <button type='submit'>find your pet type</button>
+        </form>
         {/* <SearchDogs token={token}/> */}
 
         {/* <input type="search" placeholder="location" />
@@ -151,10 +185,10 @@ const PetFinderLogin = () => {
               </div>
             </div>
           </div> */}
-
+{/* 
 {data && data.animals && data.animals.map((animal, i) => (
 
-<p key={i}>breed: {data.animals[i].breeds.primary}</p>))}
+<p key={i}>breed: {data.animals[i].breeds.primary}</p>))} */}
 
           {/* {data && data.animals && data.animals[0] && 
             <p>breed: {data.animals[0].breeds.primary}</p>
