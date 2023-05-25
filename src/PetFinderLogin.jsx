@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import SearchBreeds from "./SearchBreeds";
-import SearchDogs from "./SearchDogs";
+// import SearchDogs from "./SearchDogs";
 import "./App.css";
 
 const PetFinderLogin = () => {
   const [token, setToken] = useState("");
-  const [data, setaData] = useState(null);
   const [searchDog, setSearchDog] = useState("");
   const [searchLocation, setSearchLocation] = useState('')
   const [searchContent, setSearchContent] = useState([]);
@@ -71,23 +70,23 @@ const PetFinderLogin = () => {
     console.log(animals)
     setSearchContent(animals);
   };
-const handleAnimalTypes = async (e) => {
-  e.preventDefault()
-  let animalTypesArr = []
-  let animalTypes1Url = `https://api.petfinder.com/v2/types`
+// const handleAnimalTypes = async (e) => {
+//   e.preventDefault()
+//   let animalTypesArr = []
+//   let animalTypes1Url = `https://api.petfinder.com/v2/types`
 
-  const options = {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-  };
+//   const options = {
+//     method: "GET",
+//     headers: {
+//       "Content-Type": "application/json",
+//       Authorization: `Bearer ${token}`,
+//     },
+//   };
 
-  const res = await fetch(animalTypes1Url, options);
-  const content = await res.json();
-  console.log('what does this look like?', content, handleAnimalTypes)
-}
+//   const res = await fetch(animalTypes1Url, options);
+//   const content = await res.json();
+//   console.log('what does this look like?', content, handleAnimalTypes)
+// }
  
 
 
@@ -119,7 +118,8 @@ const handleAnimalTypes = async (e) => {
     console.log("is this the token? line37", token);
   }
 
-  const SearchForDogs = () => {
+  const SearchForDogs = async (e) => {
+    e.preventDefault();
     let breedSearchUrl = `https://api.petfinder.com/v2/animals?type=dog&colors=black&coat=short`;
     let breedSearchOptions = {
       method: "GET",
@@ -128,14 +128,17 @@ const handleAnimalTypes = async (e) => {
         Authorization: `Bearer ${token}`,
       },
     };
-    fetch(breedSearchUrl, breedSearchOptions)
-      .then((res) => res.json())
-      .then((json) => {
-        console.log("how do i capture this data?", json, JSON.stringify(json));
-        setaData(json);
-      })
-      .catch((err) => console.error("error:" + err));
-    console.log("this line is setdata", data);
+    const res = await fetch(breedSearchUrl, breedSearchOptions);
+    const content = await res.json()
+    console.log(content)
+    // fetch(breedSearchUrl, breedSearchOptions)
+    //   .then((res) => res.json())
+    //   .then((json) => {
+    //     console.log("how do i capture this data?", json, JSON.stringify(json));
+    //     setaData(json);
+    //   })
+    //   .catch((err) => console.error("error:" + err));
+    // console.log("this line is setdata", data);
   };
 
   // const searchInput = () => {

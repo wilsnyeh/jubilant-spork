@@ -22,7 +22,7 @@ function SearchBreeds({token}){
 }
 
     return(
-        <div style={{paddingBottom:500}}>
+        <div style={{paddingBottom:50}}>
             <button  onClick={realSearchBreed}>get breeds</button>
         </div>
     )
