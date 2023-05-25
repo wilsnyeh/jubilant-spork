@@ -1,65 +1,66 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import SearchBreeds from "./SearchBreeds";
 import SearchDogs from "./SearchDogs";
-// import Cookies from "js-cookie";
-import "./App.css"
+import "./App.css";
 
 const PetFinderLogin = () => {
   const [token, setToken] = useState("");
-  // const [colors, setColors] = useState("");
-  // const [coats, setCoats] = useState("");
   const [data, setaData] = useState(null);
-  const [searchDog, setSearchDog] = useState('');
+  const [searchDog, setSearchDog] = useState("");
+  const [searchLocation, setSearchLocation] = useState('')
+  const [searchContent, setSearchContent] = useState([]);
 
-const handleSearchChange = (e) => {
-  setSearchDog(e.target.value);
-}
+  var UsaStates = require('usa-states').UsaStates;
+  // console.log('where does this show up??', UsaStates)
+  var usStates = new UsaStates();
+  var statesAbbreviation = usStates.arrayOf('abbreviations')
+  // console.log('where do these abbreviations show up? ', statesAbbreviation)
 
-const handleSearchSubmit = async (e) => {
-  e.preventDefault();
-  const petFinderSearchUrl = `https://api.petfinder.com/v2/animals?type=${searchDog}`
+  const handleSearchChange = (e) => {
+    setSearchDog(e.target.value);
+    setSearchLocation(e.target.value)
+  };
 
-  const options = {
-    method: 'GET',
-    headers: {
-      "Content-Type": 'application/json',
-      "Authorization": `Bearer ${token}`
+  const handleSearchSubmit = async (e) => {
+    e.preventDefault();
+    //need ternary for location
+    const petFinderSearchUrl = `https://api.petfinder.com/v2/animals?type=${searchDog}&location=${searchLocation}`;
+
+    const options = {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
+    const res = await fetch(petFinderSearchUrl, options);
+    const content = await res.json();
+    let animals = []
+
+    for (let i = 0; i < content['animals'].length; i++ ){
+
+      const name = content['animals'][i]['name']
+      const animalBreed = content['animals'][i]['breeds']['primary']
+      const animalCity =  content['animals'][i]['contact']['address']['city']
+      const animalState =  content['animals'][i]['contact']['address']['state']
+
+      let animal = {
+        name: name,
+        breed: animalBreed,
+        city: animalCity,
+        state: animalState
+      }
+
+      animals.push(animal)
     }
-  }
 
-  const res = await fetch(petFinderSearchUrl, options);
-  const content = await res.json()
+    console.log(content);
+    console.log(animals)
+    setSearchContent(animals);
+  };
 
-  console.log(content)
-}
-
-
-const animalTypes = ['cat', 'dog', 'bird']
-  // let navigate = useNavigate();
-  // const routeChange = () => {
-  //   let path = `/searchdogs/`;
-  //   navigate(path);
-  // };
-
-  // const getSession = () => {
-  //   const authToken = Cookies.get("__session");
-  //   let session;
-  //   try {
-  //     if (authToken) {
-  //       const base64Url = authToken.split(".")[1];
-  //       const base64 = base64Url.replace("-", "+").replace("_", "/");
-  //       session = JSON.parse(window.atob(base64));
-  //     }
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  //   return session;
-  // };
-
-  // const logOut = () => {
-  //   Cookies.remove("__session");
-  // };
+  const animalTypes = ["cat", "dog", "bird"];
 
   async function loginUser() {
     let petFinderUrl = "https://api.petfinder.com/v2/oauth2/token";
@@ -102,27 +103,8 @@ const animalTypes = ['cat', 'dog', 'bird']
         setaData(json);
       })
       .catch((err) => console.error("error:" + err));
-      console.log('this line is setdata', data)
+    console.log("this line is setdata", data);
   };
-  // useEffect(() => {
-    
-  // });
-
-
-  // let navigate = useNavigate();
-  // const routeChange = () => {
-  //     let path = `/signup/`
-  //     navigate(path)
-  // }
-
-  // const handleSubmit = async e => {
-  //     e.preventDefault();
-  //     const token = await loginUser({
-  //         userName,
-  //         password
-  //     });
-  //     setToken(token)
-  // }
 
   // const searchInput = () => {
   //   let breedSearchUrl = `https://api.petfinder.com/v2/animals?type=dog&location=california&breed=bulldog`;
@@ -161,64 +143,51 @@ const animalTypes = ['cat', 'dog', 'bird']
           value={searchDog}
           onChange={handleSearchChange}
           /> */}
-          <label htmlFor='animaltypes'>choose animal type</label>
-          <select id='animaltypes' value={searchDog} onChange={handleSearchChange} name='animaltypes'>
+          <label htmlFor="animaltypes">choose animal type</label>
+          <select
+            id="animaltypes"
+            value={searchDog}
+            onChange={handleSearchChange}
+            name="animaltypes"
+          >
             {animalTypes.map((animal) => {
-              return (
-              <option>{animal}</option>
-            )})}
+              return <option>{animal}</option>;
+            })}
           </select>
-          <button type='submit'>find your pet type</button>
+          <select
+          value={searchLocation}
+          onChange={handleSearchChange}
+          >
+            {statesAbbreviation.map((abb) => {
+              return <option>{abb}</option>
+            })}
+          </select>
+          <button type="submit">find your pet type</button>
         </form>
-        {/* <SearchDogs token={token}/> */}
+        <table>
+          <thead>
+            <tr>
+              <th>Animal Name</th>
+              <th>Animal Breed</th>
+              <th>Animal Location</th>
+            </tr>
+          </thead>
+          <tbody>
+            {searchContent && searchContent.map((x) => {
+              return (
+                <tr>
+                  <td>{x.name}</td>
+                  <td>{x.breed}</td>
+                  <td>{x.city} {x.state}</td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
 
-        {/* <input type="search" placeholder="location" />
         <br></br>
-        <input type="search" placeholder="dog breed" />
-        <button type="submit" onClick={searchInput}>
-          submit
-        </button> */}
-        <br></br>
-
         <button onClick={SearchForDogs}>this is search for dogs</button>
-        <div>
-          {/* <div className='dropdown-container'>
-            <div className='dropdown-input'>
-              <div className='dropdown-menu'>
-                {data.animals.map((animal) => (
-                  <div key={data.animals.id} className='dropdown-item'>
-                    {animal.name}
-                    </div>
-                ))}
-              </div>
-            </div>
-          </div> */}
-{/* 
-{data && data.animals && data.animals.map((animal, i) => (
-
-<p key={i}>breed: {data.animals[i].breeds.primary}</p>))} */}
-
-          {/* {data && data.animals && data.animals[0] && 
-            <p>breed: {data.animals[0].breeds.primary}</p>
-          } */}
-          {/*
-          we want to check for token here, if token is available, we can begin render data
-          for user 
-          */}
-          {/* {data ? (
-            <div>
-              {data.animals.map((animal) => {
-                return (
-                  <div>
-                    <div>{animal.location}</div>
-                    <div>{animal.breed}</div>
-                    
-                  </div>
-                );
-              })}
-            </div>
-          ) : null} */}
-        </div>
+        <div></div>
       </div>
     </div>
   );
