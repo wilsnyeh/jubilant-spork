@@ -52,3 +52,8 @@
   justify-content: space-between;
   user-select: none;
 }
+
+.table-center {
+  margin-left: auto;
+  margin-right: auto;
+}

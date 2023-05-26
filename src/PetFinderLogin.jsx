@@ -34,7 +34,7 @@ const PetFinderLogin = () => {
       // petFinderSearchUrl = `https://api.petfinder.com/v2/animals?type=${searchDog}`
     } else {
       petFinderSearchUrl +=`&location=${searchLocation}`
-      console.log('what does the url look like here? line 38', petFinderSearchUrl)
+      // console.log('what does the url look like here? line 38', petFinderSearchUrl)
     }
 
     const options = {
@@ -47,6 +47,7 @@ const PetFinderLogin = () => {
 
     const res = await fetch(petFinderSearchUrl, options);
     const content = await res.json();
+    // console.log('let see what content looks like here line50', content['pagination']['current_page'][2])
     let animals = []
 
     for (let i = 0; i < content['animals'].length; i++ ){
@@ -90,7 +91,7 @@ const PetFinderLogin = () => {
  
 
 
-  const animalTypes = ["Cat", "Dog", "Bird", "Rabbit", "Horse", "scales-fins-other", "Barnyard"];
+  const animalTypes = ["", "Cat", "Dog", "Bird", "Rabbit", "Horse", "Scales-Fins-Other", "Barnyard"];
 
 
   async function loginUser() {
@@ -120,7 +121,8 @@ const PetFinderLogin = () => {
 
   const SearchForDogs = async (e) => {
     e.preventDefault();
-    let breedSearchUrl = `https://api.petfinder.com/v2/animals?type=dog&colors=black&coat=short`;
+    // let breedSearchUrl = `https://api.petfinder.com/v2/animals?types=dog`;
+    let breedSearchUrl = `https://api.petfinder.com/v2/types/dog/breeds`;
     let breedSearchOptions = {
       method: "GET",
       headers: {
@@ -130,7 +132,13 @@ const PetFinderLogin = () => {
     };
     const res = await fetch(breedSearchUrl, breedSearchOptions);
     const content = await res.json()
-    console.log(content)
+
+    const searchDogBreeds = []
+    const dogBreeds = content['breeds']
+    for (let i = 0; i < dogBreeds.length; i++){
+      
+    }
+    console.log('what is being returned here? line 134', content['breeds'][1]['name'])
     // fetch(breedSearchUrl, breedSearchOptions)
     //   .then((res) => res.json())
     //   .then((json) => {
@@ -198,12 +206,13 @@ const PetFinderLogin = () => {
               return <option>{abb}</option>
             })}
           </select>
-          <button type="submit">find your pet type</button>
+          <button type="submit">Search for an animal near you!</button>
         </form>
-        <table>
+        <table className="table-center">
           <thead>
             <tr>
               <th>Animal Name</th>
+              <th>Animal Type</th>
               <th>Animal Breed</th>
               <th>Animal Location</th>
             </tr>
@@ -213,6 +222,7 @@ const PetFinderLogin = () => {
               return (
                 <tr>
                   <td>{x.name}</td>
+                  <td>something</td>
                   <td>{x.breed}</td>
                   <td>{x.city} {x.state}</td>
                 </tr>
@@ -220,7 +230,7 @@ const PetFinderLogin = () => {
             })}
           </tbody>
         </table>
-
+        <button>&lt;&lt;</button> <button>&gt;&gt;</button>
         <br></br>
         <button onClick={SearchForDogs}>this is search for dogs</button>
         <div></div>
