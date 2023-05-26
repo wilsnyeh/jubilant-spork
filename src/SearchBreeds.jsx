@@ -1,32 +1,37 @@
 import React from "react";
 
+function SearchBreeds({ setBreedList, token }) {
+  const realSearchBreed = async (e) => {
+    e.preventDefault();
+    let breedSearchUrl = "https://api.petfinder.com/v2/types/dog/breeds";
+    let breedSearchOptions = {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    const res = await fetch(breedSearchUrl, breedSearchOptions);
+    const content = await res.json();
 
-function SearchBreeds({token}){
-
-    const realSearchBreed = () =>{
-
-    let breedSearchUrl ='https://api.petfinder.com/v2/types/dog/breeds';
-    let breedSearchOptions = {     
-        method: 'GET',
-        headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`
-      }
-
+    let breedsList = [];
+    let dogBreeds = content["breeds"];
+    for (let i = 0; i < dogBreeds.length; i++) {
+      const listOfDogBreeds = dogBreeds[i]["name"];
+      breedsList.push(listOfDogBreeds);
     }
-    fetch(breedSearchUrl, breedSearchOptions)
-    .then(res => res.json())
-    .then(json => console.log(json))
-    .catch(err => console.error('error:' + err));
-    console.log('now what is token?:', token)
+    // console.log('is this finally the breedslist?', breedsList)
+    setBreedList(breedsList);
+  };
+
+  return (
+    <div style={{ paddingBottom: 50 }}>
+      <button
+        onClick={realSearchBreed}>
+        get breeds
+      </button>
+    </div>
+  );
 }
 
-    return(
-        <div style={{paddingBottom:50}}>
-            <button  onClick={realSearchBreed}>get breeds</button>
-        </div>
-    )
-}
-
-
-export default SearchBreeds
+export default SearchBreeds;
