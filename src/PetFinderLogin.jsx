@@ -9,6 +9,7 @@ const PetFinderLogin = () => {
   const [searchLocation, setSearchLocation] = useState("");
   const [searchContent, setSearchContent] = useState([]);
   const [breedList, setBreedList] = useState([]);
+  // const [showBreedList, setShowBreedList] = useState(true)
   const [selectedDogBreed, setSelectedDogBreed] = useState("");
 
   var UsaStates = require("usa-states").UsaStates;
@@ -36,7 +37,7 @@ const PetFinderLogin = () => {
 
     petFinderSearchUrl += `?type=${searchType}`;
 
-    if (selectedDogBreed) {
+    if (selectedDogBreed && searchType === "Dog") {
       petFinderSearchUrl += `&breed=${selectedDogBreed}`;
     }
 
@@ -118,52 +119,53 @@ const PetFinderLogin = () => {
     console.log("is this the token? line37", token);
   }
 
-  const SearchForDogs = async (e) => {
-    e.preventDefault();
-    // let breedSearchUrl = `https://api.petfinder.com/v2/animals?types=dog`;
-    let breedSearchUrl = `https://api.petfinder.com/v2/types/dog/breeds`;
-    let specificBreedSearchUrl = `https://api.petfinder.com/v2/animals?type=dog&breed=pug,german Shepherd dog`;
-    let breedSearchOptions = {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    };
-    const res = await fetch(
-      breedSearchUrl,
-      breedSearchOptions,
-      specificBreedSearchUrl
-    );
-    const content = await res.json();
+  // const SearchForDogs = async (e) => {
+  //   e.preventDefault();
+  //   // let breedSearchUrl = `https://api.petfinder.com/v2/animals?types=dog`;
+  //   let breedSearchUrl = `https://api.petfinder.com/v2/types/dog/breeds`;
+  //   let specificBreedSearchUrl = `https://api.petfinder.com/v2/animals?type=dog&breed=pug,german Shepherd dog`;
+  //   let breedSearchOptions = {
+  //     method: "GET",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //       Authorization: `Bearer ${token}`,
+  //     },
+  //   };
+  //   const res = await fetch(
+  //     breedSearchUrl,
+  //     breedSearchOptions,
+  //     specificBreedSearchUrl
+  //   );
+  //   const content = await res.json();
 
-    const searchDogBreeds = [];
-    const dogBreeds = content["breeds"];
-    for (let i = 0; i < dogBreeds.length; i++) {
-      const dogBreedList = dogBreeds[i]["name"];
-      searchDogBreeds.push(dogBreedList);
-    }
-    console.log(
-      "what is being returned here? line 134",
-      content["breeds"][1]["name"], // afgan hound
-      searchDogBreeds, // actual breeds list
-      specificBreedSearchUrl
-    );
-  };
+  //   const searchDogBreeds = [];
+  //   const dogBreeds = content["breeds"];
+  //   for (let i = 0; i < dogBreeds.length; i++) {
+  //     const dogBreedList = dogBreeds[i]["name"];
+  //     searchDogBreeds.push(dogBreedList);
+  //   }
+  //   console.log(
+  //     "what is being returned here? line 134",
+  //     content["breeds"][1]["name"], // afgan hound
+  //     searchDogBreeds, // actual breeds list
+  //     specificBreedSearchUrl
+  //   );
+  // };
 
   const breedInput = () => {
     if (searchType === "Dog") {
       return (
         <select
           onChange={handleSelectedDogBreedChange}
-          element={<realSearchBreed breedList={breedList} />}
-        >
+          // element={<realSearchBreed breedList={breedList} />}
+        ><option></option>
           {breedList.map((bl) => {
-            return <option>{bl}</option>;
-          })}
+            return (
+            <option>{bl}</option>
+          )})}
         </select>
       );
-    }
+    } 
   };
 
   return (
@@ -229,7 +231,7 @@ const PetFinderLogin = () => {
         </table>
         <button>&lt;&lt;</button> <button>&gt;&gt;</button>
         <br></br>
-        <button onClick={SearchForDogs}>this is search for dogs</button>
+        {/* <button onClick={SearchForDogs}>this is search for dogs</button> */}
         <div></div>
       </div>
     </div>
