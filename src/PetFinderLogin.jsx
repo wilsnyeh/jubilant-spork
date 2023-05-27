@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import SearchBreeds from "./SearchBreeds";
 // import SearchDogs from "./SearchDogs";
 import "./App.css";
+import AnimalTableData from "./AnimalTableData";
 
 const PetFinderLogin = () => {
   const [token, setToken] = useState("");
@@ -27,7 +28,6 @@ const PetFinderLogin = () => {
   const handleSelectedDogBreedChange = (e) => {
     setSelectedDogBreed(e.target.value);
   };
-
 
   const handleSearchSubmit = async (e) => {
     e.preventDefault();
@@ -158,14 +158,14 @@ const PetFinderLogin = () => {
         <select
           onChange={handleSelectedDogBreedChange}
           // element={<realSearchBreed breedList={breedList} />}
-        ><option></option>
+        >
+          <option></option>
           {breedList.map((bl) => {
-            return (
-            <option>{bl}</option>
-          )})}
+            return <option>{bl}</option>;
+          })}
         </select>
       );
-    } 
+    }
   };
 
   return (
@@ -204,31 +204,7 @@ const PetFinderLogin = () => {
           </select>
           <button type="submit">Search for an animal near you!</button>
         </form>
-        <table className="table-center">
-          <thead>
-            <tr>
-              <th>Animal Name</th>
-              {/* <th>Animal Type</th> */}
-              <th>Animal Breed</th>
-              <th>Animal Location</th>
-            </tr>
-          </thead>
-          <tbody>
-            {searchContent &&
-              searchContent.map((x) => {
-                return (
-                  <tr>
-                    <td>{x.name}</td>
-                    {/* <td>something</td> */}
-                    <td>{x.breed}</td>
-                    <td>
-                      {x.city} {x.state}
-                    </td>
-                  </tr>
-                );
-              })}
-          </tbody>
-        </table>
+        <AnimalTableData searchContent={searchContent}/>
         <button>&lt;&lt;</button> <button>&gt;&gt;</button>
         <br></br>
         {/* <button onClick={SearchForDogs}>this is search for dogs</button> */}
