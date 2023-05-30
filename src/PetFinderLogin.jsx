@@ -63,16 +63,22 @@ const PetFinderLogin = () => {
     let animalContent = content["animals"];
 
     for (let i = 0; i < content["animals"].length; i++) {
+      const animalContentIdx = animalContent[i]
       const name = animalContent[i]["name"];
-      const animalBreed = animalContent[i]["breeds"]["primary"];
-      const secondBreed = animalContent[i]["breeds"]["secondary"];
-      const animalCity = animalContent[i]["contact"]["address"]["city"];
-      const animalState = animalContent[i]["contact"]["address"]["state"];
-      const animalPhoto = animalContent[i]['primary_photo_cropped']['small']
-      const organizationId = animalContent[i]['organization_id']
-      const organizationAnimalId = animalContent[i]['organization_animal_id']
-      const organizationEmail = animalContent[i]['contact']['email']
-      console.log('what does this look like?', animalPhoto )
+      const animalBreed = animalContentIdx["breeds"]["primary"];
+      const secondBreed = animalContentIdx["breeds"]["secondary"];
+      const animalCity = animalContentIdx["contact"]["address"]["city"];
+      const animalState = animalContentIdx["contact"]["address"]["state"];
+      const animalPhoto = animalContentIdx['primary_photo_cropped']
+      const organizationId = animalContentIdx['organization_id']
+      const organizationAnimalId = animalContentIdx['organization_animal_id']
+      const organizationEmail = animalContentIdx['contact']['email']
+      console.log('what does this look like?', animalPhoto)
+
+      // let animalsPhotoUrl = animalPhoto
+      // if (animalsPhotoUrl) {
+      //   return animalsPhotoUrl['small']
+      // }
 
       let animal = {
         name: name,
@@ -130,18 +136,18 @@ const PetFinderLogin = () => {
     console.log("is this the token? line37", token);
   }
 
-  // useEffect(() => {
-  //   if(token) {
-  //     localStorage.setItem('token', JSON.stringify(token))
-  //   }
-  // },[token])
+  useEffect(() => {
+    if(token) {
+      localStorage.setItem('token', JSON.stringify(token))
+    }
+  },[token])
 
-  // useEffect(() => {
-  //   const token = JSON.parse(localStorage.getItem('token'))
-  //   if (token) {
-  //     setToken(token)
-  //   }
-  // },[])
+  useEffect(() => {
+    const token = JSON.parse(localStorage.getItem('token'))
+    if (token) {
+      setToken(token)
+    }
+  },[])
 
   const breedInput = () => {
     if (searchType === "Dog") {

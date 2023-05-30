@@ -1,12 +1,17 @@
 import React from "react";
 
 export default function AnimalTableData({searchContent}) {
+
+    // let photosUrl = searchContent.photo.small
+    // if (!photosUrl) {
+    //     return null
+    // }
+
     return (
         <table className="table-center">
         <thead>
           <tr>
             <th>Animal Name</th>
-            {/* <th>Animal Type</th> */}
             <th>Animal Breed</th>
             <th>Animal Location</th>
             <th>Photos</th>
@@ -21,7 +26,6 @@ export default function AnimalTableData({searchContent}) {
               return (
                 <tr>
                   <td>{x.name}</td>
-                  {/* <td>something</td> */}
                   <td>{x.breed} 
                   {/* {if(breed2) {
                     <td>{x.breed2}</td>
@@ -30,6 +34,7 @@ export default function AnimalTableData({searchContent}) {
                   <td>
                     {x.city} {x.state}
                   </td>
+                  {/* if ({x.photo}.length===0) ? <td><img src={x.photo} alt='not available'></img></td> : <td>  <img src={x.photo.small} alt="not available" /></td> */}
                   <td><img src={x.photo} alt="not available" /></td>
                   <td>{x.organization}</td>
                   <td>{x.orgAnimalId}</td>
