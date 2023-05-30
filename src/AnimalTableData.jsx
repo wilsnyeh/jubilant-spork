@@ -27,9 +27,7 @@ export default function AnimalTableData({searchContent}) {
                 <tr>
                   <td>{x.name}</td>
                   <td>{x.breed} 
-                  {/* {if(breed2) {
                     <td>{x.breed2}</td>
-                  }} */}
                   </td>
                   <td>
                     {x.city} {x.state}

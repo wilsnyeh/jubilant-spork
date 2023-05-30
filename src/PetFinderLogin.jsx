@@ -75,9 +75,14 @@ const PetFinderLogin = () => {
       const organizationEmail = animalContentIdx['contact']['email']
       console.log('what does this look like?', animalPhoto)
 
-      // let animalsPhotoUrl = animalPhoto
-      // if (animalsPhotoUrl) {
-      //   return animalsPhotoUrl['small']
+      let animalsPhotoUrl = animalPhoto
+      if (animalsPhotoUrl) {
+        animalsPhotoUrl = animalPhoto['small']
+      }
+
+      // let hasSecondBreed = animalContentIdx["breeds"]["secondary"]
+      // if (!hasSecondBreed) {
+      //   hasSecondBreed = null
       // }
 
       let animal = {
@@ -86,7 +91,7 @@ const PetFinderLogin = () => {
         breed2: secondBreed,
         city: animalCity,
         state: animalState,
-        photo: animalPhoto,
+        photo: animalsPhotoUrl,
         organization: organizationId,
         orgAnimalId: organizationAnimalId,
         email: organizationEmail
